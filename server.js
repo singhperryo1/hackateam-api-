@@ -4,7 +4,7 @@ const cors = require('cors') ;
 
 const bodyParser = require('body-parser') ; 
 
-const bcrypt = require('bcrypt-node.js') ; 
+const bcrypt = require('bcrypt') ; 
 
 const saltRounds = 10 ; 
 
@@ -16,11 +16,10 @@ const db = knex ({
 
 client: 'mysql', 
 connection: {
-	host: '', 
-	user: ''
-	password: '', 
-	database: '', 
-
+	host: 'hackateam.mysql.database.azure.com', 
+	user: 'yan@hackateam', 
+	password: 'hackathon123!', 
+	database: 'hackateam'
 }
 })
 
@@ -32,12 +31,6 @@ app.use(bodyParser.json()) ;
 app.get('/', (req, resp) => {
 	resp.send('This is the basic setup woerking')
 }) ; 
-
-
-
-
-
-
 
 app.listen(process.env.PORT || 3000, () => {
 	console.log('app is running on port ${process.env.PORT}') ; 
