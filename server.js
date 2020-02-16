@@ -6,8 +6,6 @@ const bodyParser = require('body-parser') ;
 
 const bcrypt = require('bcrypt') ; 
 
-const saltRounds = 10 ; 
-
 const knex = require('knex') ; 
 
 const signin = require('./controllers/signin') ;
@@ -20,12 +18,12 @@ const db = knex ({
 
 client: 'mysql', 
 connection: {
-	host: 'hackateam.mysql.database.azure.com', 
-	user: 'yan@hackateam', 
-	password: 'hackathon123!', 
-	database: 'hackateam'
+	host: 'hackathon123.mysql.database.azure.com', 
+	user: 'yan@hackathon123', 
+	password: 'Hackathon123!', 
+	database: 'hackathon123', 
 }
-})
+}) ; 
 
 const app = express() ;
 
@@ -34,15 +32,15 @@ app.use(cors()) ;
 app.use(bodyParser.json()) ; 
 
 app.get('/', (req, resp) => {
-	resp.send('This is the basic setup woerking')
+	resp.send('This is the basic setup working')
 }) ; 
 
 app.post('/signIn', signin.handleSignIn(db, bcrypt)) ; 
 
-app.post('./register', (req, resp) => {
+app.post('/register', (req, resp) => { 
 	register.handleRegister(req, resp, db, bcrypt)
 }) ; 
 
-app.listen(process.env.PORT || 3000, () => {
-	console.log(`app is running on port ${process.env.PORT}`) ; 
+app.listen(3000, () => {
+	console.log(`app is running on port 3000`) ; 
 })
