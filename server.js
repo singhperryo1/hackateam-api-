@@ -21,7 +21,7 @@ connection: {
 	host: 'hackathon123.mysql.database.azure.com', 
 	user: 'yan@hackathon123', 
 	password: 'Hackathon123!', 
-	database: 'hackathon123', 
+	database: 'hello', 
 }
 }) ; 
 

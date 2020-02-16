@@ -6,13 +6,14 @@ const handleSignIn = (db, bcrypt) => (req, resp) => {
 		return resp.status(400).json('Incorrect Submission') ; 
 	}
 
-	db.select('email','hash').from('login')
+
+	db.select('email','password').from('register')
 	.where('email', '=', email)
 	.then(data => {
 
-		const isValid = bcrypt.compareSync(password, data[0].hash) ; 
+		const isValid = bcrypt.compareSync(password, data[0].password) ; 
 		if(isValid) {
-			return db.select('*').from('users')
+			return db.select('*').from('register')
 			.where('email', '=', email)
 			.then(user => {
 				resp.json(user[0])
@@ -24,7 +25,7 @@ const handleSignIn = (db, bcrypt) => (req, resp) => {
 
 	})
 
-	.catch(err => resp.status(400).json('wrong credentials'))
+	.catch(err => console.error(err)) ; 
 }
 
 

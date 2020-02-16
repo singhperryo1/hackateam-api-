@@ -1,4 +1,3 @@
-const date = require('date-and-time');
 
 const handleRegister = (req, resp, db, bcrypt) => {
 	const { email, firstname, lastname, password } = req.body ; 
@@ -8,22 +7,23 @@ const handleRegister = (req, resp, db, bcrypt) => {
 	}
 
 	const hash = bcrypt.hashSync(password, 10) ; 
+	console.log(hash) ; 
 
 	db.transaction(trx => {
 		trx.insert({
-			hash: hash, 
-			email: email
+			password: hash, 
+			email: email,
+			firstname: firstname,
+			lastname: lastname
 		})
 		.into('register')
 		.returning('email')
 		.then(loginEmail => {
-			return trx('users')
+			return trx('login')
 			.returning('*')
 			.insert ({
 				email: loginEmail[0], 
-				firstname: firstname,
-				lastname: lastname,  
-				joined: date.format(new Date(), 'DD-[MM]-YYYY')  
+				password: hash
 			})
 			.then(users => {
 				resp.json(users[0]) ; 
@@ -32,7 +32,10 @@ const handleRegister = (req, resp, db, bcrypt) => {
 		.then(trx.commit)
 		.catch(trx.rollback)
 	})
-	.catch(err => resp.status(400).json('unable to register'))
+	.catch(err => {
+		console.error(err);
+		resp.status(400).json('unable to register')
+	})
 }
 module.exports = {
 	handleRegister: handleRegister
